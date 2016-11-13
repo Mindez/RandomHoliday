@@ -12,8 +12,6 @@ let randomHoliday = {
             bankholB = bankHolidays.findAll(end.format('YYYY')).map(str => moment(str).format('YYYYMMDD')),
             bankhol = bankholA.concat(bankholB);
 
-        console.log(bankhol);
-
         if (end < start) {
             return 'Error: End date is before start date.';
         }

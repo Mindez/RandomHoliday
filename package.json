@@ -1,0 +1,30 @@
+{
+  "name": "randomholiday",
+  "version": "1.0.0",
+  "description": "Generates random holiday dates in a given date range. Designed for those indecisive people that would just rather have an algorithm decide when they need a rest.",
+  "main": "randomholiday.js",
+  "scripts": {
+    "test": "mocha tests/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mindez/RandomHoliday.git"
+  },
+  "keywords": [
+    "random",
+    "holidays",
+    "vacation",
+    "work",
+    "industry",
+    "office"
+  ],
+  "author": "Daniel Lyon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mindez/RandomHoliday/issues"
+  },
+  "homepage": "https://github.com/Mindez/RandomHoliday#readme",
+  "dependencies": {
+    "moment": "^2.16.0"
+  }
+}

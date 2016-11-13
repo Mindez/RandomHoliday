@@ -1,12 +1,18 @@
 'use strict';
-let moment = require('moment');
+let moment       = require('moment');
+let bankHolidays = require('bankholiday').GB;
 
 let randomHoliday = {
     generate : (options) => {
         let days    = options.days,
             start   = moment(options.startDate),
             end     = moment(options.endDate),
-            exclude = options.excludeDates.map(str => moment(str).format('YYYYMMDD'));
+            exclude = options.excludeDates.map(str => moment(str).format('YYYYMMDD')),
+            bankholA = bankHolidays.findAll(start.format('YYYY')).map(str => moment(str).format('YYYYMMDD')),
+            bankholB = bankHolidays.findAll(end.format('YYYY')).map(str => moment(str).format('YYYYMMDD')),
+            bankhol = bankholA.concat(bankholB);
+
+        console.log(bankhol);
 
         if (end < start) {
             return 'Error: End date is before start date.';
@@ -24,9 +30,10 @@ let randomHoliday = {
             current.add(1, 'day');
         }
 
-        // remove weekends and excluded dates from the date array
+        // remove weekends, bank holidays and excluded dates from the date array
         dates = dates.filter(date => date.isoWeekday() < 6);
-        dates = dates.filter(date => exclude.indexOf(date.format('YYYYMMDD')) === -1 );
+        dates = dates.filter(date => bankhol.indexOf(date.format('YYYYMMDD')) === -1);
+        dates = dates.filter(date => exclude.indexOf(date.format('YYYYMMDD')) === -1);
 
         if (days > dates.length) {
             return 'Error: Not enough dates for remaining holidays!';
@@ -53,14 +60,6 @@ let result = randomHoliday.generate({
     startDate : '2017-01-01',
     endDate   : '2017-12-31',
     excludeDates : [
-        '2017-01-02', // new years day
-        '2017-04-14', // good friday
-        '2017-04-17', // easter monday
-        '2017-05-01', // may day
-        '2017-05-29', // spring bank holiday
-        '2017-08-28', // summer bank holiday
-        '2017-12-25', // christmas day
-        '2017-12-26', // boxing day
         '2017-12-27', // office closed
         '2017-12-28', // office closed
         '2017-12-29'  // office closed

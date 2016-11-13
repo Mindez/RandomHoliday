@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/Mindez/RandomHoliday#readme",
   "dependencies": {
+    "bankholiday": "^0.2.0",
     "moment": "^2.16.0"
   }
 }

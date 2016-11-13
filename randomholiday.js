@@ -4,21 +4,17 @@ let bankHolidays = require('bankholiday').GB;
 
 let randomHoliday = {
     generate : (options) => {
-        let days    = options.days,
-            start   = moment(options.startDate),
-            end     = moment(options.endDate),
-            exclude = options.excludeDates.map(str => moment(str).format('YYYYMMDD')),
-            bankholA = bankHolidays.findAll(start.format('YYYY')).map(str => moment(str).format('YYYYMMDD')),
-            bankholB = bankHolidays.findAll(end.format('YYYY')).map(str => moment(str).format('YYYYMMDD')),
-            bankhol = bankholA.concat(bankholB);
+        let days     = options.days,
+            start    = moment(options.startDate),
+            end      = moment(options.endDate),
+            exclude  = options.excludeDates.map(str => moment(str).format('YYYYMMDD'));
 
-        if (end < start) {
-            return 'Error: End date is before start date.';
-        }
+        // add bank holidays to the exclude lists
+        exclude = exclude.concat(bankHolidays.findAll(start.format('YYYY')).map(str => moment(str).format('YYYYMMDD')));
+        exclude = exclude.concat(bankHolidays.findAll(end.format('YYYY')).map(str => moment(str).format('YYYYMMDD')));
 
-        if (end > moment(start).add(1, 'year')) {
-            return 'Error: Date range is over a year.';
-        }
+        if (end < start) { return 'Error: End date is before start date.'; }
+        if (end > moment(start).add(1, 'year')) { return 'Error: Date range is over a year.'; }
 
         // get all dates between start and end
         let dates   = [];
@@ -30,12 +26,9 @@ let randomHoliday = {
 
         // remove weekends, bank holidays and excluded dates from the date array
         dates = dates.filter(date => date.isoWeekday() < 6);
-        dates = dates.filter(date => bankhol.indexOf(date.format('YYYYMMDD')) === -1);
         dates = dates.filter(date => exclude.indexOf(date.format('YYYYMMDD')) === -1);
 
-        if (days > dates.length) {
-            return 'Error: Not enough dates for remaining holidays!';
-        }
+        if (days > dates.length) { return 'Error: Not enough dates for remaining holidays!'; }
 
         // randomly select holidays from eligible days
         let finalDates = [];

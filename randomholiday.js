@@ -49,7 +49,7 @@ let randomHoliday = {
 
         // sort and format into a readable format
         finalDates = finalDates.sort((date1, date2) => date1 - date2);
-        finalDates = finalDates.map(date => date.format('ddd DD MMM YY'));
+        finalDates = finalDates.map(date => date.format('ddd DD MMM YYYY'));
 
         return finalDates;
     }
